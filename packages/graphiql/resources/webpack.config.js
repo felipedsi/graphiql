@@ -28,7 +28,10 @@ const resultConfig = {
     // bypass simple localhost CORS restrictions by setting
     // these to 127.0.0.1 in /etc/hosts
     allowedHosts: ['local.example.com', 'graphiql.com'],
-    before: require('../test/beforeDevServer'),
+    proxy: {
+      '/graphql': 'http://localhost:3000',
+    },
+    // before: require('../test/beforeDevServer'),
   },
   devtool: isDev ? 'cheap-module-eval-source-map' : 'source-map',
   node: {
