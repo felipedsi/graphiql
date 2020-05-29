@@ -12,6 +12,9 @@ const isHMR = Boolean(isDev && process.env.WEBPACK_DEV_SERVER);
 const relPath = (...args) => path.resolve(__dirname, ...args);
 const rootPath = (...args) => relPath('../', ...args);
 
+const proxyHost = process.env.PROXY_HOST || 'localhost'
+const proxyPort = process.env.PROXY_PORT || 3000
+
 const resultConfig = {
   mode: process.env.NODE_ENV,
   entry: './cdn.ts',
@@ -25,11 +28,12 @@ const resultConfig = {
   },
   devServer: {
     hot: true,
+    host: '0.0.0.0',
     // bypass simple localhost CORS restrictions by setting
     // these to 127.0.0.1 in /etc/hosts
     allowedHosts: ['local.example.com', 'graphiql.com'],
     proxy: {
-      '/graphql': 'http://localhost:3000',
+      '/graphql': 'http://' + proxyHost + ':' + proxyPort,
     },
     // before: require('../test/beforeDevServer'),
   },
